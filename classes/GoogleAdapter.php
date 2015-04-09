@@ -17,11 +17,12 @@ class GoogleAdapter extends AbstractAdapter {
         $JSON = new \JSON(JSON_LOOSE_TYPE);
         $data = array();
 
-        $result = $JSON->decode($this->oAuth->request('https://www.googleapis.com/oauth2/v1/userinfo'));
+        $result = $JSON->decode($this->oAuth->request('https://www.googleapis.com/oauth2/v2/userinfo'));
 
         $data['user'] = $result['name'];
         $data['name'] = $result['name'];
         $data['mail'] = $result['email'];
+        $data['grps'] = array_key_exists('hd', $result) ? array($result['hd']) : array(); # add domain as group
 
         return $data;
     }
